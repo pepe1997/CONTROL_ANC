@@ -10,12 +10,28 @@ from pathlib import Path
 from openpyxl import load_workbook
 
 ROOT = Path(__file__).resolve().parent
-SOURCES = ['1eh0xd3i_ZWCqP-xoH5h--K76jE4lE59BvHtVGZHfBfM']
+SOURCES = [
+    '1eh0xd3i_ZWCqP-xoH5h--K76jE4lE59BvHtVGZHfBfM',  # CD 961
+    '1rxtJOqOvDuE_OGznvklIo8lzG5o5ActE',              # CD 969
+    '1pqnr6JucXuP2h6cuBspwEb-0WSNUiQKR',              # CD 962
+]
 SHEETS = ['CAPACIDAD', 'ANTIGUEDAD', 'QUIEBRE', 'RECEPCION', 'PICKING', 'DESPACHO', 'RRHH', 'M. CONOC', 'M. DESCO']
+SPANISH_MONTHS = {'ene': 1, 'feb': 2, 'mar': 3, 'abr': 4, 'may': 5, 'jun': 6, 'jul': 7, 'ago': 8, 'set': 9, 'sep': 9, 'oct': 10, 'nov': 11, 'dic': 12}
 LOCK = threading.Lock()
 CACHE = None
 LAST_ATTEMPT = 0
 LAST_ERROR = None
+
+def normalize_date(value):
+    """Keep spreadsheet dates consistent even when a sheet uses e.g. 21-Set."""
+    if isinstance(value, (date, datetime)):
+        return value.isoformat()
+    if not isinstance(value, str):
+        return value
+    parts = value.strip().lower().replace('/', '-').split('-')
+    if len(parts) == 2 and parts[0].isdigit() and parts[1] in SPANISH_MONTHS:
+        return date(datetime.now().year, SPANISH_MONTHS[parts[1]], int(parts[0])).isoformat()
+    return value
 
 def read_sources():
     data = {name: [] for name in SHEETS}
@@ -30,7 +46,7 @@ def read_sources():
                 if 'COD_CD' not in headers:
                     raise ValueError(f'Encabezados no válidos: {name}')
                 for values in rows:
-                    row = {key: (value.isoformat() if isinstance(value, (date, datetime)) else value)
+                    row = {key: (normalize_date(value) if key == 'FECHA' else (value.isoformat() if isinstance(value, (date, datetime)) else value))
                            for key, value in zip(headers, values) if key}
                     if any(value is not None for value in row.values()):
                         data[name].append(row)
