@@ -64,6 +64,8 @@ body{background:radial-gradient(ellipse at 85% 0%,#d8e6ff 0,transparent 42%),lin
 <footer class="footer"><span id="footnote"></span><a href="https://docs.google.com/spreadsheets/d/1eh0xd3i_ZWCqP-xoH5h--K76jE4lE59BvHtVGZHfBfM/edit" target="_blank" rel="noopener">Fuente: Google Sheets ↗</a></footer>
 <div class="sr-only" id="status" role="status" aria-live="polite"></div></main><div id="tooltip" class="tooltip hidden" role="tooltip"></div>
 <dialog id="calendar-dialog" aria-labelledby="calendar-title"><div class="calendar-top"><h3 id="calendar-title">Selecciona el intervalo</h3><button id="calendar-close" aria-label="Cerrar calendario">×</button></div><p id="calendar-help" aria-live="polite">Elige la fecha inicial y luego la fecha final.</p><div class="calendar-nav"><button id="month-prev" aria-label="Mes anterior">‹</button><strong id="calendar-month"></strong><button id="month-next" aria-label="Mes siguiente">›</button></div><div class="calendar-week"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div><div id="calendar-days"></div><div class="calendar-bottom"><span id="calendar-selection"></span><button id="calendar-apply" disabled>Aplicar intervalo</button></div></dialog>
+<script src="./xlsx.full.min.js"></script>
+<script src="./sheets.js"></script>
 <script>
 'use strict';
 const SHEET_NAMES=['CAPACIDAD','ANTIGUEDAD','QUIEBRE','RECEPCION','PICKING','DESPACHO','RRHH','M. CONOC','M. DESCO'];
@@ -97,7 +99,7 @@ function render(){
  for(const [target,sheet] of [['unknown','M. DESCO'],['known','M. CONOC']]){$(target).innerHTML=table(['BULTO','COSTO TOTAL'],[[fmt(sum(filtered[sheet],'BULTO')),fmt(sum(filtered[sheet],'COSTO TOTAL'),2)]]);}
  enhance(filtered,receps,hr);
  trend(filtered.QUIEBRE);
- $('footnote').textContent=operational.length?'Totales según el periodo seleccionado · — = sin información':'Sin datos para la selección. La fuente contiene registros del CD 961.';$('status').textContent='Reporte actualizado: '+label(start)+' al '+label(end)+'. Sucursales '+[...cds].join(', ');
+ $('footnote').textContent=operational.length?'Totales según el periodo seleccionado · — = sin información':'Sin datos para la selección. Fuentes: CD 961, 962 y 969.';$('status').textContent='Reporte actualizado: '+label(start)+' al '+label(end)+'. Sucursales '+[...cds].join(', ');
 }
 function miniSeries(rows,fields,colors,bars=false){
  const days=[...new Set(rows.map(date))].sort(),values=days.map(d=>fields.map(k=>sum(rows.filter(r=>date(r)===d),k))),max=Math.max(1,...values.flat().filter(v=>v!==null));
@@ -156,18 +158,10 @@ function updateDateBounds(){
 }
 async function refreshData(){
  if(refreshing)return;
- if(location.protocol==='file:'){
-  $('sync-status').style.cssText='color:#a12c2c;background:#fff0ed;font-size:12px';
-  $('sync-status').innerHTML='Este archivo no conecta con Google Sheets. <a href="http://127.0.0.1:8765/">Abrir reporte conectado</a>';
-  location.replace('http://127.0.0.1:8765/');
-  return;
- }
  refreshing=true;lastCheck=Date.now();
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),45000);
  try{
-  const response=await fetch('/api/data?ts='+Date.now(),{cache:'no-store',signal:controller.signal});
-  if(!response.ok)throw new Error('Consulta no disponible');
-  const payload=await response.json();
+  const payload=await loadReportSheets(SHEET_NAMES,controller.signal);
   if(!payload.data||!Object.keys(DATA).every(k=>Array.isArray(payload.data[k])))throw new Error('Datos no válidos');
   const signature=JSON.stringify(payload.data);
   DATA=payload.data;
@@ -181,9 +175,9 @@ async function refreshData(){
   $('sync-status').textContent=payload.stale?'Sin conexión · últimos datos: '+stamp:'Actualización automática · 1 min · última: '+stamp;
  }catch(error){
   $('sync-status').style.cssText='color:#a12c2c;background:#fff0ed;font-size:11px';
-  $('sync-status').innerHTML=(hasLiveData?'Conexión interrumpida; datos de la última lectura. ':'Sin conexión: aún no se han cargado datos. ')+ '<a href="http://127.0.0.1:8765/">Abrir servidor del reporte</a>';
+  $('sync-status').textContent=(hasLiveData?'Últimos datos conservados. ':'Sin datos cargados. ')+error.message;
   clearTimeout(refreshTimer);
-  refreshTimer=setTimeout(refreshData,10000);
+  refreshTimer=setTimeout(refreshData,60000);
  }
  finally{clearTimeout(timeout);refreshing=false;}
 }
