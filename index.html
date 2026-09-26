@@ -7,6 +7,7 @@
 @media(min-width:1600px){.report{gap:16px;padding:18px 20px 12px}.masthead{min-height:104px}.dashboard{gap:16px}.panel-head{height:54px;min-height:54px}.icon{width:56px}.icon svg{width:32px;height:32px}.body{padding:23px}.age-body{padding:20px}.date-body{padding:15px 20px}.branch-body{padding:16px 20px}.reception{padding:16px}.reception table{font-size:12px}.provider{max-width:260px}.picking-table{font-size:20px}.picking-table th{font-size:12px}.hr table{font-size:18px}.hr th{font-size:12px}.dispatch-table table{font-size:18px}.dispatch-value strong{font-size:37px}.age-table th{font-size:16px}.age-total{font-size:12px}.age-total b{font-size:20px}.loss-body table{font-size:21px}.loss-body th{font-size:13px}.summary-note{font-size:10px}.footer{font-size:10px}}
 @media(max-width:1050px){.report{height:auto;min-height:100vh}.masthead{padding-left:20px;min-height:80px}.masthead:after{left:20px}.dashboard{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none}.panel,.panel.wide{grid-column:span 1;min-height:205px}.panel.wide{min-height:240px}.panel.reception-panel{min-height:280px}.table-scroll{max-height:185px}.chart{min-height:145px}.age-table{font-size:18px}.picking-table{font-size:14px}.dispatch-body{gap:9px}.dispatch-value{min-width:80px}.dispatch-value strong{font-size:25px}.loss-body table{font-size:19px}}
 @media(max-width:620px){.report{padding:10px;gap:13px}.masthead{padding:5px 3px 13px;min-height:82px;gap:12px}.masthead:after{left:3px;bottom:3px}h1{font-size:27px;max-width:235px}.brand strong{font-size:36px;letter-spacing:-3px}.brand span{font-size:8px;letter-spacing:.7px;padding:4px}.dashboard{grid-template-columns:1fr}.panel h2{font-size:16px}.panel,.panel.wide{min-height:195px}.panel-head{height:45px;min-height:45px}.panel.reception-panel{min-height:280px}.branches button{min-height:44px}.date-inputs input{font-size:14px}.capacity strong{font-size:42px}.age-table{font-size:21px}.picking-table{font-size:13px}.footer{flex-direction:column}.dispatch-value{min-width:90px}.dispatch-body{gap:12px}.hr table{font-size:16px}}
+.branches button{display:flex;align-items:center;justify-content:center;min-height:40px;padding:6px 8px;line-height:1.15;text-align:center}.branches button span{font-size:10px;font-weight:600;white-space:normal}.selection-caption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media print{body{background:white}.report{height:190mm;min-height:0;padding:0}.masthead{min-height:22mm}.dashboard{gap:3mm}.panel{box-shadow:none;break-inside:avoid}.panel-head{print-color-adjust:exact}.age-table{print-color-adjust:exact}.footer{display:none}}
 @media(min-width:1051px) and (max-height:800px){.age-table th,.age-table td{padding:5px 2px}.age-total{padding-top:5px}.age-note{font-size:8px;margin-top:2px}.hr th{padding:5px 4px}.hr td{padding:4px}.hr{padding-top:5px;padding-bottom:6px}}/* Visual hierarchy and charts, using the existing filtered data. */
 body{background:radial-gradient(ellipse at 85% 0%,#d8e6ff 0,transparent 42%),linear-gradient(125deg,#f4f7fc,#e8effa)}
@@ -52,7 +53,7 @@ body{background:radial-gradient(ellipse at 85% 0%,#d8e6ff 0,transparent 42%),lin
 <section class="panel"><div class="panel-head"><span class="icon" data-icon="box"></span><h2>CAPACIDAD</h2></div><div class="body capacity"><strong id="capacity">—</strong><span class="subtle" id="capacity-note"></span></div></section>
 <section class="panel"><div class="panel-head"><span class="icon" data-icon="trend"></span><h2>ANTIGÜEDAD</h2></div><div class="body age-body"><div id="aging"></div><div class="age-total"><span>Total general</span><b id="age-total">—</b></div><div class="age-note">Suma de todos los días seleccionados</div></div></section>
 <section class="panel"><div class="panel-head"><span class="icon" data-icon="calendar"></span><h2>FECHAS</h2></div><div class="body date-body"><button id="calendar-open" class="range-trigger" aria-haspopup="dialog"><span>Seleccionar intervalo</span><strong id="range-display"></strong><small>▦ Abrir calendario</small></button><span id="sync-status" role="status" class="sync-status">Conectando con Google Sheets…</span><div class="date-inputs hidden"><label>Desde<input id="from" type="date"></label><label>Hasta<input id="to" type="date"></label></div><div class="range-line hidden"><input id="range-from" type="range" aria-label="Inicio del periodo"><input id="range-to" type="range" aria-label="Fin del periodo"></div><div class="range-labels"><span class="subtle" id="date-caption"></span><button class="text-button" id="reset">Restablecer</button></div><span class="date-error hidden" id="date-error" role="alert"></span></div></section>
-<section class="panel"><div class="panel-head"><span class="icon" data-icon="branches"></span><h2>SUCURSALES</h2></div><div class="body branch-body"><div class="branches" role="group" aria-label="Seleccionar sucursales"><button data-cd="961" aria-pressed="true">961</button><button data-cd="969" aria-pressed="true">969</button><button data-cd="962" aria-pressed="true">962</button><button id="all-cd">Todas</button></div><span class="selection-caption" id="cd-caption"></span></div></section>
+<section class="panel"><div class="panel-head"><span class="icon" data-icon="branches"></span><h2>SUCURSALES</h2></div><div class="body branch-body"><div class="branches" role="group" aria-label="Seleccionar sucursales"><button data-cd="961" aria-pressed="true"><span>SPSA CD Mass Piura</span></button><button data-cd="969" aria-pressed="true"><span>SPSA CD Mass Chiclayo</span></button><button data-cd="962" aria-pressed="true"><span>SPSA CD Mass Trujillo</span></button><button id="all-cd"><span>Todas las sucursales</span></button></div><span class="selection-caption" id="cd-caption"></span></div></section>
 <section class="panel wide"><div class="panel-head"><span class="icon" data-icon="box"></span><h2>PICKING</h2></div><div class="body"><div class="table-scroll" id="picking"></div><span class="summary-note" id="picking-note"></span></div></section>
 <section class="panel wide reception-panel"><div class="panel-head"><span class="icon" data-icon="truck"></span><h2>RECEPCIÓN</h2></div><div class="body reception"><div class="table-scroll" id="reception"></div></div></section>
 <section class="panel wide"><div class="panel-head"><span class="icon" data-icon="warehouse"></span><h2>DESPACHO</h2></div><div class="body dispatch-body"><div class="dispatch-table"><div class="table-scroll" id="dispatch"></div><span class="summary-note" style="display:block">B x P: suma de los valores diarios</span></div><div class="dispatch-value"><span>Bultos x Pallet</span><strong id="bpp">—</strong></div></div></section>
@@ -64,7 +65,6 @@ body{background:radial-gradient(ellipse at 85% 0%,#d8e6ff 0,transparent 42%),lin
 <footer class="footer"><span id="footnote"></span><a href="https://docs.google.com/spreadsheets/d/1eh0xd3i_ZWCqP-xoH5h--K76jE4lE59BvHtVGZHfBfM/edit" target="_blank" rel="noopener">Fuente: Google Sheets ↗</a></footer>
 <div class="sr-only" id="status" role="status" aria-live="polite"></div></main><div id="tooltip" class="tooltip hidden" role="tooltip"></div>
 <dialog id="calendar-dialog" aria-labelledby="calendar-title"><div class="calendar-top"><h3 id="calendar-title">Selecciona el intervalo</h3><button id="calendar-close" aria-label="Cerrar calendario">×</button></div><p id="calendar-help" aria-live="polite">Elige la fecha inicial y luego la fecha final.</p><div class="calendar-nav"><button id="month-prev" aria-label="Mes anterior">‹</button><strong id="calendar-month"></strong><button id="month-next" aria-label="Mes siguiente">›</button></div><div class="calendar-week"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div><div id="calendar-days"></div><div class="calendar-bottom"><span id="calendar-selection"></span><button id="calendar-apply" disabled>Aplicar intervalo</button></div></dialog>
-<script src="./xlsx.full.min.js"></script>
 <script src="./sheets.js"></script>
 <script>
 'use strict';
@@ -78,6 +78,7 @@ const measuredDates=Object.entries(DATA).flatMap(([sheet,rows])=>rows.filter(r=>
 let minDate=measuredDates[0]||new Date().toISOString().slice(0,10),maxDate=measuredDates.at(-1)||minDate,defaultFrom=DATA.ANTIGUEDAD.map(date).filter(Boolean).sort()[0]||minDate,defaultTo=DATA.ANTIGUEDAD.filter(r=>['0D','1D','2D','3D','>3D'].every(k=>num(r[k])!==null)).map(date).sort().at(-1)||maxDate;
 const dateSteps=[];for(let t=Date.parse(minDate+'T12:00:00Z');t<=Date.parse(maxDate+'T12:00:00Z');t+=86400000)dateSteps.push(new Date(t).toISOString().slice(0,10));
 let cds=new Set([961,962,969]);
+const CD_LABELS={961:'SPSA CD Mass Piura',962:'SPSA CD Mass Trujillo',969:'SPSA CD Mass Chiclayo'};
 for(const id of ['from','to']){$(id).min=minDate;$(id).max=maxDate}for(const id of ['range-from','range-to']){$(id).min=0;$(id).max=dateSteps.length-1;$(id).step=1}$('from').value=defaultFrom;$('to').value=defaultTo;
 const paths={box:'<path d="m4 8 10-5 10 5v13l-10 5-10-5z M4 8l10 5 10-5 M14 13v13 M9 5l10 5v5"/>',trend:'<path d="M3 3v22h23 M7 18l6-7 5 4 8-10 M20 5h6v6"/>',calendar:'<rect x="4" y="5" width="21" height="21" rx="2"/><path d="M9 2v6 M20 2v6 M4 12h21 M9 16h2 M16 16h2 M9 21h2 M16 21h2"/>',branches:'<path d="M14 2v12h12A12 12 0 0 0 14 2z M10 6A11 11 0 1 0 24 18H10z"/>',truck:'<path d="M2 5h16v16H2z M18 11h5l5 5v5H18 M23 11v6h5"/><circle cx="7" cy="23" r="3"/><circle cx="23" cy="23" r="3"/>',warehouse:'<path d="m2 12 13-9 13 9 M5 11v15h20V11 M10 26V15h10v11 M11 19h8 M11 23h8"/>',people:'<circle cx="15" cy="7" r="4"/><circle cx="4" cy="11" r="3"/><circle cx="26" cy="11" r="3"/><path d="M8 26v-7a7 7 0 0 1 14 0v7z M2 17v9h3 M28 17v9h-3"/>',clock:'<circle cx="15" cy="15" r="12"/><path d="M15 7v9l6 4"/>',warning:'<path d="m15 3 13 23H2z M15 10v7 M15 21v1"/>',document:'<path d="M6 2h12l6 6v20H6z M18 2v7h6 M10 14h10 M10 19h10 M10 24h7"/>'};
 document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=`<svg viewBox="0 0 30 30" aria-hidden="true">${paths[el.dataset.icon]}</svg>`);
@@ -89,7 +90,7 @@ function render(){
  const filtered=Object.fromEntries(Object.entries(DATA).map(([sheet,rows])=>[sheet,rows.filter(r=>!bad&&cds.has(Number(r.COD_CD))&&(!date(r)||(date(r)>=start&&date(r)<=end)))]));
  const operational=Object.entries(filtered).filter(([s])=>s!=='CAPACIDAD').flatMap(([,rows])=>rows),activeCDs=new Set(operational.map(r=>Number(r.COD_CD)));
  const cap=sum(filtered.CAPACIDAD.filter(r=>activeCDs.has(Number(r.COD_CD))),'CAPACIDAD');$('capacity').textContent=cap===null?'—':cap>=1000?fmt(cap/1000,1)+' mil':fmt(cap);$('capacity-note').textContent=cap===null?'Sin datos para la selección':'';
- $('cd-caption').textContent=cds.size===3?'Todas las sucursales':cds.size?[...cds].sort().join(' · '):'Selecciona una sucursal';document.querySelectorAll('[data-cd]').forEach(b=>b.setAttribute('aria-pressed',String(cds.has(Number(b.dataset.cd)))));
+ $('cd-caption').textContent=cds.size===3?'Todas las sucursales':cds.size?[...cds].sort().map(cd=>CD_LABELS[cd]||cd).join(' · '):'Selecciona una sucursal';document.querySelectorAll('[data-cd]').forEach(b=>b.setAttribute('aria-pressed',String(cds.has(Number(b.dataset.cd)))));
  const ageKeys=['>3D','3D','2D','1D','0D'],age=ageKeys.map(k=>sum(filtered.ANTIGUEDAD,k));$('aging').innerHTML=`<table class="age-table"><thead><tr>${ageKeys.map((k,i)=>`<th class="${i<3?'red':i===3?'yellow':'green'}" scope="col">${k.replace('>','&gt;')}</th>`).join('')}</tr></thead><tbody><tr>${age.map((v,i)=>`<td class="${i<3?'red':i===3?'yellow':'green'}">${fmt(v)}</td>`).join('')}</tr></tbody></table>`;$('age-total').textContent=age.some(v=>v!==null)?fmt(age.reduce((n,v)=>n+(v??0),0)):'—';
  const pk=filtered.PICKING;$('picking').innerHTML=table(['PEDIDO','PICKERS','BULTOS','BULTOS-P','BULTOS P X H'],[[fmt(sum(pk,'PEDIDO'),2),fmt(sum(pk,'PICKERS')),fmt(sum(pk,'BULTOS'),2),fmt(sum(pk,'BULTOS-PICKER'),2),fmt(sum(pk,'BULTOS PICKER HORA'),2)]],'picking-table');$('picking-note').textContent='Totales del periodo · Bultos-P y P x H: suma de los valores diarios';
  const groups=new Map();filtered.RECEPCION.forEach(r=>{const key=r['TIPO OC']+'|'+r['NOM PROVEEDOR'];if(!groups.has(key))groups.set(key,[]);groups.get(key).push(r)});let receps=[...groups.values()].sort((a,b)=>(sum(b,'BULTOS RECIBIDOS')??-Infinity)-(sum(a,'BULTOS RECIBIDOS')??-Infinity));
@@ -143,6 +144,20 @@ $('calendar-days').addEventListener('click',e=>{const b=e.target.closest('[data-
 for(const [id,step] of [['month-prev',-1],['month-next',1]])$(id).addEventListener('click',()=>{const [y,m]=month.split('-').map(Number);month=new Date(Date.UTC(y,m-1+step,1)).toISOString().slice(0,7);drawCalendar()});
 $('calendar-apply').addEventListener('click',()=>{if(!pendingStart||!pendingEnd)return;$('from').value=pendingStart;$('to').value=pendingEnd;render();$('calendar-dialog').close()});
 let refreshing=false,lastCheck=0,lastSignature=JSON.stringify(DATA),refreshTimer;
+const REPORT_CACHE_KEY='anc-report-cache-v1';
+function saveReportCache(payload){try{localStorage.setItem(REPORT_CACHE_KEY,JSON.stringify(payload))}catch(error){console.warn('No se pudo guardar la copia local',error)}}
+function restoreReportCache(){
+ try{
+  const cached=JSON.parse(localStorage.getItem(REPORT_CACHE_KEY)||'null');
+  if(!cached?.data||!Object.keys(DATA).every(k=>Array.isArray(cached.data[k])))return false;
+  DATA=cached.data;lastSignature=JSON.stringify(DATA);updateDateBounds();
+  if(!hasLiveData){$('from').value=defaultFrom;$('to').value=defaultTo;hasLiveData=true}
+  render();
+  const stamp=new Date(cached.updatedAt).toLocaleString('es-PE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+  $('sync-status').textContent='Conectando · mostrando última copia: '+stamp;
+  return true;
+ }catch(error){return false}
+}
 function updateDateBounds(){
  const previousMax=maxDate, wasAtLatest=$('to').value===previousMax;
  const dates=Object.values(DATA).flat().filter(r=>date(r)&&Object.entries(r).some(([k,v])=>!['COD_CD','CAPO'].includes(k)&&num(v)!==null&&num(v)!==0)).map(date).sort();
@@ -165,6 +180,7 @@ async function refreshData(){
   if(!payload.data||!Object.keys(DATA).every(k=>Array.isArray(payload.data[k])))throw new Error('Datos no válidos');
   const signature=JSON.stringify(payload.data);
   DATA=payload.data;
+  saveReportCache(payload);
   const changed=signature!==lastSignature;
   lastSignature=signature;
   updateDateBounds();
@@ -183,6 +199,6 @@ async function refreshData(){
 }
 setInterval(refreshData,60000);
 document.addEventListener('visibilitychange',()=>{if(Date.now()-lastCheck>=10000)refreshData()});
-refreshData();
+restoreReportCache();refreshData();
 let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(render,100)});render();
 </script></body></html>
