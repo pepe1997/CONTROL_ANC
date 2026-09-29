@@ -1,0 +1,148 @@
+/* Scoped overrides keep the existing report theme and data bindings. */
+body .report { height: auto; min-height: 100vh; }
+body .dashboard { grid-template-rows: minmax(220px, 1fr) minmax(250px, 1.15fr) minmax(240px, 1.1fr); }
+body .masthead { padding-left: 20px; gap: 24px; }
+body .masthead h1 { font-size: 38px; letter-spacing: 0; }
+body .masthead:after { left: 20px; }
+.masthead-tools { display: flex; align-items: center; gap: 24px; min-width: 0; }
+.global-dates { width: 260px; flex-shrink: 0; }
+body .global-dates .range-trigger { padding: 8px 12px; }
+body .global-dates .range-trigger strong { font-size: 16px; }
+body .global-dates .range-trigger small { font-size: 10px; }
+body .global-dates .range-labels { margin-top: 4px; }
+body .brand strong { font-size: 58px; letter-spacing: 0; }
+body .brand span { font-size: 11px; letter-spacing: 0; }
+body .panel h2 { font-size: 15px; letter-spacing: 0; min-width: 0; overflow-wrap: anywhere; }
+body .local-panel .panel-head { flex-wrap: wrap; height: auto; min-height: 64px; padding-bottom: 5px; gap: 4px 8px; }
+body .local-panel .icon { height: 34px; width: 34px; min-width: 34px; align-self: flex-start; }
+body .local-panel .icon svg { width: 23px; height: 23px; }
+body .local-panel h2 { flex: 1; font-size: 14px; }
+.local-date { flex: 0 0 calc(100% - 12px); margin: 0 6px; border: 1px solid #ffffff55; background: #ffffffed; color: #344f87; border-radius: 5px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 4px 6px; font-size: 11px; min-height: 27px; }
+.local-date svg { width: 15px; height: 15px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; }
+.local-date span { min-width: 0; overflow-wrap: anywhere; }
+.local-date:hover { background: #e6efff; }
+body .people-panel { grid-column: span 6; }
+body .people-panel .hr { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(180px, 1fr); align-items: center; gap: 16px; padding: 12px 16px; }
+body .hr .table-scroll { max-height: 170px; }
+.people-summary { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; min-width: 0; }
+body .people-summary .metric { padding: 12px 8px; }
+body .people-summary .metric strong { font-size: 24px; white-space: normal; overflow-wrap: anywhere; }
+body .people-summary .metric span { font-size: 11px; white-space: normal; }
+.people-summary .absence { background: #fff2ed; border-color: #c07856; }
+.people-summary .attendance-bar, .people-summary > .subtle { grid-column: 1/-1; }
+.attendance-bar { height: 12px; border-radius: 6px; overflow: hidden; background: #e9b08d; }
+.attendance-bar span { display: block; height: 100%; background: #39988c; }
+body .reception { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(130px, .9fr); gap: 12px; align-items: center; padding: 12px; }
+body .reception td:last-child,body .reception th:last-child { text-align: right; }
+body .reception td:first-child { white-space: normal; overflow-wrap: anywhere; }
+.reception-chart { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.reception-chart svg { width: 140px; max-width: 100%; height: 140px; }
+.reception-chart text { font: 700 17px 'Segoe UI', sans-serif; fill: #304a7d; }
+.reception-chart .donut-caption { font-size: 9px; font-weight: 400; }
+.reception-legend { display: grid; gap: 5px; width: 100%; font-size: 10px; }
+.reception-legend span { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.reception-legend i { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.reception-legend b { margin-left: auto; white-space: nowrap; }
+body .dispatch-metrics .metric span { font-size: 11px; }
+body .dispatch-metrics .metric strong { font-size: 25px; }
+body .dispatch-metrics .metric:first-child strong { font-size: 38px; }
+body .metric strong { white-space: normal; overflow-wrap: anywhere; }
+body .loss-body table { max-width: none; table-layout: fixed; white-space: normal; }
+body .loss-body td { font-size: 24px; overflow-wrap: anywhere; }
+body .loss-body th { font-size: 11px; }
+body .capacity strong { font-size: 42px; letter-spacing: 0; }
+body .footer { align-items: center; flex-wrap: wrap; }
+.calendar-clear { display: block; margin-top: 12px; width: 100%; background: #f0f4fc; color: #344f87; border: 1px solid #ccd9ee; padding: 9px; border-radius: 6px; }
+.calendar-clear[hidden] { display: none; }
+@media (min-width: 1600px) {
+ body .report { min-height: 100vh; }
+ body .dashboard { grid-template-rows: minmax(240px,1fr) minmax(270px,1.15fr) minmax(255px,1.1fr); }
+ body .panel h2 { font-size: 18px; }
+ body .local-panel h2 { font-size: 16px; }
+ body .local-panel .panel-head { min-height: 70px; }
+ body .reception-chart svg { width: 155px; height: 155px; }
+}
+/* Fit desktop rows to the available height, without scaling text or the page. */
+@media (min-width: 1051px) and (min-height: 720px) {
+ body .report { height: 100dvh; min-height: 0; padding: 12px 16px 8px; gap: 10px; }
+ body .masthead { flex: 0 0 86px; min-height: 0; padding: 0 12px; }
+ body .masthead h1 { font-size: 32px; }
+ body .masthead:after { left: 12px; bottom: 0; }
+ body .brand strong { font-size: 48px; }
+ body .global-dates .range-trigger { padding: 5px 10px; }
+ body .global-dates .range-trigger strong { margin: 2px 0; }
+ body .dashboard { min-height: 0; gap: 10px; grid-template-rows: minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr); }
+ body .panel { min-height: 0; }
+ body .panel-head { height: 40px; min-height: 40px; flex-shrink: 0; }
+ body .panel-head .icon { width: 40px; min-width: 40px; }
+ body .panel-head .icon svg { width: 25px; height: 25px; }
+ body .panel h2 { font-size: 15px; }
+ body .local-panel .panel-head { height: auto; min-height: 62px; gap: 2px 7px; padding-bottom: 4px; }
+ body .local-panel .icon { width: 30px; min-width: 30px; height: 30px; }
+ body .local-panel .icon svg { width: 22px; height: 22px; }
+ body .local-panel h2 { font-size: 14px; }
+ body .local-date { min-height: 25px; padding: 3px 6px; }
+ body .body { padding: 10px 12px; }
+ body .capacity { padding-left: 22px; }
+ body .age-item { padding: 6px 0; }
+ body .age-item strong { font-size: 17px; margin-top: 4px; }
+ body .age-item span { font-size: 11px; }
+ body .age-total { padding-top: 5px; }
+ body .branches button { min-height: 30px; }
+ body .chart-body { padding: 5px 12px 8px; }
+ body .picking-metrics, body .dispatch-metrics { gap: 6px; }
+ body .picking-metrics .metric { padding: 6px 8px; }
+ body .picking-metrics .metric span { font-size: 11px; }
+ body .picking-metrics .metric strong { font-size: 23px; margin-top: 3px; }
+ body .picking-metrics .metric:nth-child(-n+2) strong { font-size: 30px; }
+ body .dispatch-metrics .metric strong { font-size: 23px; }
+ body .dispatch-metrics .metric:first-child strong { font-size: 32px; }
+ body .reception { gap: 10px; }
+ body .reception .table-scroll { max-height: 100%; }
+ body .reception-chart { height: 100%; min-height: 0; gap: 5px; }
+ body .reception-chart svg { flex: 1 1 0; min-height: 0; width: 140px; height: auto; max-height: 150px; }
+ body .reception-legend { flex-shrink: 0; gap: 3px; max-height: 65px; overflow: auto; }
+ body .people-panel .hr { padding: 8px 12px; gap: 12px; grid-template-rows: minmax(0,1fr); }
+ body .hr .table-scroll { max-height: 100%; }
+ body .hr table { font-size: 12px; }
+ body .hr th { font-size: 10px; padding: 5px 4px; }
+ body .hr td { padding: 4px; }
+ body .people-summary { gap: 5px; }
+ body .people-summary .metric { padding: 7px; }
+ body .people-summary .metric strong { font-size: 22px; }
+ body .attendance-bar { height: 9px; }
+ body .loss-body { justify-content: center; }
+ body .loss-body td { font-size: 24px; }
+ body .footer { flex-shrink: 0; min-height: 18px; font-size: 9px; }
+}
+@media (min-width: 1051px) and (max-width: 1350px) and (min-height: 720px) {
+ body .picking-metrics .metric:nth-child(-n+2) strong { font-size: 24px; }
+ body .picking-metrics .metric strong { font-size: 19px; }
+ body .people-panel .hr { grid-template-columns: minmax(0,1.2fr) minmax(170px,1fr); }
+ body .people-summary .metric strong { font-size: 19px; }
+ body .panel h2 { font-size: 13px; }
+}
+@media (max-width: 1050px) {
+ body .dashboard { grid-template-rows: none; grid-auto-rows: auto; }
+ body .people-panel { grid-column: span 2; }
+ body .masthead { flex-wrap: wrap; padding: 8px 0; }
+ body .masthead h1 { font-size: 30px; }
+ body .masthead-tools { margin-left: auto; }
+ body .panel { min-height: 240px; }
+}
+@media (max-width: 620px) {
+ body .masthead { gap: 14px; }
+ body .masthead h1 { max-width: none; font-size: 27px; }
+ body .masthead-tools { width: 100%; gap: 12px; justify-content: space-between; }
+ body .global-dates { width: auto; flex: 1; min-width: 0; }
+ body .global-dates .range-trigger strong { font-size: 14px; }
+ body .brand strong { font-size: 42px; }
+ body .brand span { font-size: 9px; }
+ body .people-panel { grid-column: span 1; }
+ body .people-panel .hr { grid-template-columns: minmax(0,1fr); }
+ body .reception { grid-template-columns: minmax(0,1fr) minmax(110px,.8fr); gap: 8px; }
+ body .reception table { font-size: 11px; }
+ body .dispatch-metrics .metric strong { font-size: 22px; }
+ body .people-summary .metric strong { font-size: 26px; }
+ body .panel-head { min-height: 48px; }
+}
