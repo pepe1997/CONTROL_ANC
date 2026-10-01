@@ -2,7 +2,8 @@
 const REPORT_SOURCES=[
  {cd:961,id:'1eh0xd3i_ZWCqP-xoH5h--K76jE4lE59BvHtVGZHfBfM'},
  {cd:969,id:'1rxtJOqOvDuE_OGznvklIo8lzG5o5ActE'},
- {cd:962,id:'1pqnr6JucXuP2h6cuBspwEb-0WSNUiQKR'}
+ {cd:962,id:'1pqnr6JucXuP2h6cuBspwEb-0WSNUiQKR'},
+ {cd:979,id:'1PEP9ktgZ_jyyoxDkaz0Yab5sN7RjJ6_H'}
 ];
 function reportDate(value,year){
  if(value instanceof Date)return [value.getFullYear(),String(value.getMonth()+1).padStart(2,'0'),String(value.getDate()).padStart(2,'0')].join('-');

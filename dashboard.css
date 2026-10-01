@@ -154,3 +154,7 @@ body .footer { align-items: center; flex-wrap: wrap; }
  body .people-summary .metric strong { font-size: 26px; }
  body .panel-head { min-height: 48px; }
 }
+body .branches{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:1fr 1fr auto;gap:6px}
+body .branches #all-cd{grid-column:1/-1;min-height:26px;padding:4px 8px}
+body .branches button{min-width:0;overflow-wrap:anywhere}
+
