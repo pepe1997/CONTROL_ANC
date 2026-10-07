@@ -20,6 +20,15 @@ function reportDate(value,year){
  if(d.getMonth()!==month-1||d.getDate()!==Number(match[1]))throw new Error('Fecha no válida: '+text);
  return [y,String(month).padStart(2,'0'),match[1].padStart(2,'0')].join('-');
 }
+function readReportRow(headers,values,source,sheet,year){
+ const item={};
+ try{headers.forEach((key,index)=>{if(key)item[key]=key==='FECHA'?reportDate(values[index],year):values[index]??null})}
+ catch(error){console.warn('Fila omitida en CD '+source.cd+', '+sheet+': '+error.message);return null}
+ if(headers.includes('FECHA')&&!item.FECHA)return null;
+ if(item.COD_CD==null||item.COD_CD==='')return null;
+ if(Number(item.COD_CD)!==source.cd)throw new Error('COD_CD no coincide en '+sheet);
+ item.COD_CD=source.cd;return item;
+}
 function requestGoogleTable(source,sheet,signal){
  return new Promise((resolve,reject)=>{
   const callback='ancGviz_'+source.cd+'_'+sheet.replace(/\W/g,'_')+'_'+Date.now()+'_'+Math.random().toString(36).slice(2);
@@ -39,15 +48,40 @@ function requestGoogleTable(source,sheet,signal){
   signal?.addEventListener('abort',onAbort,{once:true});document.head.appendChild(script);
  });
 }
+function parseReportCsv(text){
+ const rows=[];let row=[],value='',quoted=false;
+ for(let i=0;i<text.length;i++){
+  const ch=text[i];
+  if(ch==='"'){if(quoted&&text[i+1]==='"'){value+='"';i++}else quoted=!quoted}
+  else if(ch===','&&!quoted){row.push(value);value=''}
+  else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&text[i+1]==='\n')i++;row.push(value);if(row.some(v=>v!==''))rows.push(row);row=[];value=''}
+  else value+=ch;
+ }
+ row.push(value);if(row.some(v=>v!==''))rows.push(row);
+ return rows;
+}
+async function readReportCsv(source,sheet,signal){
+ const params=new URLSearchParams({sheet,headers:'1',tqx:'out:csv',cacheBust:String(Date.now())});
+ const response=await fetch('https://docs.google.com/spreadsheets/d/'+source.id+'/gviz/tq?'+params,{signal,cache:'no-store'});
+ if(!response.ok)throw new Error('Google CSV: HTTP '+response.status);
+ const rows=parseReportCsv(await response.text()),headers=(rows.shift()||[]).map(v=>v.replace(/^\uFEFF/,'').trim());
+ if(!headers.includes('COD_CD'))throw new Error('Falta COD_CD en CSV '+sheet);
+ const year=Number(new Intl.DateTimeFormat('en-US',{year:'numeric',timeZone:'America/Lima'}).format(new Date()));
+ return rows.map(values=>readReportRow(headers,values,source,sheet,year)).filter(Boolean);
+}
 async function readPublicWorkbook(source,names,signal){
  try{
+  try{
+   const entries=await Promise.all(names.map(async name=>[name,await readReportCsv(source,name,signal)]));
+   return Object.fromEntries(entries);
+  }catch(error){if(signal?.aborted)throw error;console.warn('CSV no disponible, usando Google JSONP para CD '+source.cd,error.message)}
   const tables=await Promise.all(names.map(async name=>[name,await requestGoogleTable(source,name,signal)]));
   const years=tables.flatMap(([,table])=>table.rows.flatMap(row=>(row.c||[]).map(cell=>cell?.v))).filter(value=>value instanceof Date).map(value=>value.getFullYear());
   const year=years.length?Math.max(...years):new Date().getFullYear(),data={};
   for(const [name,table] of tables){
    const headers=table.cols.map(column=>String(column.label||column.id||'').trim());
    if(!headers.includes('COD_CD'))throw new Error('Falta COD_CD en '+name);
-   data[name]=table.rows.map(row=>{const values=(row.c||[]).map(cell=>cell?.v??null),item={};headers.forEach((key,index)=>{if(key)item[key]=key==='FECHA'?reportDate(values[index],year):values[index]});if(item.COD_CD==null)return null;if(Number(item.COD_CD)!==source.cd)throw new Error('COD_CD no coincide en '+name);item.COD_CD=source.cd;return item}).filter(Boolean);
+   data[name]=table.rows.map(row=>readReportRow(headers,(row.c||[]).map(cell=>cell?.v??cell?.f??null),source,name,year)).filter(Boolean);
   }
   return data;
  }catch(error){throw new Error('CD '+source.cd+': '+error.message)}
